@@ -21,45 +21,45 @@
         </div>
     </section>
 
-    <section class="section has-background-white-ter">
+    <section class="section has-background-white-ter" id="view_feature">
         <div class="container is-fluid">
             <h1 class="title is-5 mb-2">Transform</h1>
             <div class="buttons">
-                <button class="button is-rounded">Replace</button>
-                <button class="button is-rounded">Reverse</button>
-                <button class="button is-rounded">Case transform</button>
-                <button class="button is-rounded">Numeral system</button>
+                <button class="button is-rounded" id="x_replace">Replace</button>
+                <button class="button is-rounded" id="x_reverse">Reverse</button>
+                <button class="button is-rounded" id="x_case_transform">Case transform</button>
+                <button class="button is-rounded" id="x_numeral_system">Numeral system</button>
             </div>
             <h1 class="title is-5 mb-2">Ciphers</h1>
             <div class="buttons">
-                <button class="button is-rounded">Caesar cipher</button>
-                <button class="button is-rounded">Vigenere cipher</button>
-                <button class="button is-rounded">Alphabetical subtitution</button>
-                <button class="button is-rounded">Rail fence cipher</button>
+                <button class="button is-rounded" id="x_caesar">Caesar cipher</button>
+                <button class="button is-rounded" id="x_vigenere">Vigenere cipher</button>
+                <button class="button is-rounded" id="x_alphabetical">Alphabetical subtitution</button>
+                <button class="button is-rounded" id="x_rail_fence">Rail fence cipher</button>
             </div>
             <h1 class="title is-5 mb-2">Encoding</h1>
             <div class="buttons">
-                <button class="button is-rounded">Base32</button>
-                <button class="button is-rounded">Base64</button>
-                <button class="button is-rounded">Ascii85</button>
-                <button class="button is-rounded">Unicode code points</button>
-                <button class="button is-rounded">URL encoding</button>
+                <button class="button is-rounded" id="x_base32">Base32</button>
+                <button class="button is-rounded" id="x_base64">Base64</button>
+                <button class="button is-rounded" id="x_ascii85">Ascii85</button>
+                <button class="button is-rounded" id="x_unicode">Unicode code points</button>
+                <button class="button is-rounded" id="x_url_encode">URL encoding</button>
             </div>
             <h1 class="title is-5 mb-2">Modern cryptograpy</h1>
             <div class="buttons">
-                <button class="button is-rounded">Hash function</button>
-                <button class="button is-rounded">HMAC</button>
+                <button class="button is-rounded" id="x_hash_func">Hash function</button>
+                <button class="button is-rounded" id="x_hmac">HMAC</button>
             </div>
         </div>
     </section>
 
-    <section class="section has-background-white-ter" style="display: none;">
+    <section class="section has-background-white-ter" style="display: none;" id="view_main">
         <div class="container is-fullhd">
             <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li class="is-active"><a href="#" aria-current="page">XYZ</a></li>
-                    <li class="is-active"><a href="#" aria-current="page">Breadcrumb</a></li>
+                    <li><a id="goto_feature">Home</a></li>
+                    <li class="is-active"><a aria-current="page">Transform</a></li>
+                    <li class="is-active"><a aria-current="page">Replace</a></li>
                 </ul>
             </nav>
             <div class="columns">
@@ -71,11 +71,13 @@
                     </div>
                 </div>
                 <div class="column">
-                    <div class="tabs is-centered">
-                        <ul>
-                            <li class="is-active"><a>Enkripsi</a></li>
-                            <li><a>Dekripsi</a></li>
-                        </ul>
+                    <div class="box">
+                        <div class="tabs is-centered">
+                            <ul>
+                                <li class="is-active"><a>Encode</a></li>
+                                <li><a>Decode</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="column">
