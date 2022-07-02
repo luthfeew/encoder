@@ -8,6 +8,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -67,7 +68,7 @@
                     <div class="box">
                         <h1 class="title">Title</h1>
                         <h2 class="subtitle">Subtitle</h2>
-                        <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+                        <textarea class="textarea" placeholder="e.g. Hello world" id="input"></textarea>
                     </div>
                 </div>
                 <div class="column">
@@ -78,13 +79,33 @@
                                 <li><a>Decode</a></li>
                             </ul>
                         </div>
+
+                        <div style="display: none;" id="view_x_caesar">
+                            <div class="field has-addons has-addons-centered">
+                                <div class="control">
+                                    <a class="button" id="x_caesar_shift_minus">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </a>
+                                </div>
+                                <div class="control">
+                                    <input class="input" type="text" value="0" id="x_caesar_shift" readonly>
+                                </div>
+                                <div class="control">
+                                    <a class="button" id="x_caesar_shift_plus">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="button is-rounded is-fullwidth" id="x_caesar_process">CALCULATE</button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="column">
                     <div class="box">
                         <h1 class="title">Title</h1>
                         <h2 class="subtitle">Subtitle</h2>
-                        <textarea class="textarea" placeholder="e.g. Hello world"></textarea>
+                        <textarea class="textarea" placeholder="e.g. Hello world" id="output"></textarea>
                     </div>
                 </div>
             </div>
