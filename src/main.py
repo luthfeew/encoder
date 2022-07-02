@@ -25,6 +25,7 @@ breadcrumb2 = Element("breadcrumb2").element
 view_feature = Element("view_feature").element
 view_main = Element("view_main").element
 
+view_x_replace = Element("view_x_replace").element
 view_x_caesar = Element("view_x_caesar").element
 
 is_encode = Element("is_encode").element
@@ -33,6 +34,11 @@ tab_decode = Element("tab_decode").element
 
 input = Element("input").element
 output = Element("output").element
+
+x_replace_find = Element("x_replace_find").element
+x_replace_replace = Element("x_replace_replace").element
+x_replace_case_n = Element("x_replace_case_n").element
+x_replace_process = Element("x_replace_process").element
 
 x_caesar_shift = Element("x_caesar_shift").element
 x_caesar_shift_plus = Element("x_caesar_shift_plus").element
@@ -44,8 +50,11 @@ x_caesar_process = Element("x_caesar_process").element
 def show_feature():
     view_main.classList.add("is-hidden")
     view_feature.classList.remove("is-hidden")
+    input.value = ""
+    output.value = ""
 
     view_x_caesar.classList.add("is-hidden")
+    view_x_replace.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -83,6 +92,7 @@ def goto_feature_click(event):
 
 def x_replace_click(event):
     show_main(x_replace)
+    view_x_replace.classList.remove("is-hidden")
 
 
 def x_reverse_click(event):
@@ -142,6 +152,25 @@ def x_hmac_click(event):
     show_main(x_hmac)
 
 
+################################################################################
+
+
+def x_replace_process_click(event):
+    x = input.value
+    find = x_replace_find.value
+    replace = x_replace_replace.value
+
+    if x_replace_case_n.checked:
+        x = x.lower()
+        find = find.lower()
+        replace = replace.lower()
+
+    if int(is_encode.value) == 1:
+        output.value = x.replace(find, replace)
+    else:
+        output.value = x.replace(replace, find)
+
+
 def x_caesar_shift_plus_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) + 1
 
@@ -192,6 +221,8 @@ def main():
     x_url_encode.addEventListener("click", create_proxy(x_url_encode_click))
     x_hash_func.addEventListener("click", create_proxy(x_hash_func_click))
     x_hmac.addEventListener("click", create_proxy(x_hmac_click))
+
+    x_replace_process.addEventListener("click", create_proxy(x_replace_process_click))
 
     x_caesar_shift_plus.addEventListener(
         "click", create_proxy(x_caesar_shift_plus_click)

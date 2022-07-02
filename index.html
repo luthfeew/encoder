@@ -81,6 +81,33 @@
                             </ul>
                         </div>
 
+                        <div class="is-hidden" id="view_x_replace">
+                            <div class="field">
+                                <label class="label">Find</label>
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" id="x_replace_find">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Replace</label>
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" id="x_replace_replace">
+                                </div>
+                            </div>
+                            <label class="label">Case Sensitivity</label>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_replace_case">
+                                    Yes
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="x_replace_case" id="x_replace_case_n" checked>
+                                    No
+                                </label>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-3" id="x_replace_process">Process</button>
+                        </div>
+
                         <div class="is-hidden" id="view_x_caesar">
                             <label class="label">Shift</label>
                             <div class="field has-addons has-addons-centered">
