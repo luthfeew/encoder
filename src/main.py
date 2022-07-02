@@ -27,25 +27,54 @@ view_main = Element("view_main").element
 
 view_x_caesar = Element("view_x_caesar").element
 
+is_encode = Element("is_encode").element
+tab_encode = Element("tab_encode").element
+tab_decode = Element("tab_decode").element
+
 input = Element("input").element
 output = Element("output").element
 
 x_caesar_shift = Element("x_caesar_shift").element
 x_caesar_shift_plus = Element("x_caesar_shift_plus").element
 x_caesar_shift_minus = Element("x_caesar_shift_minus").element
+# x_caesar_case = Element("x_caesar_case").element
 x_caesar_process = Element("x_caesar_process").element
 
 
 def show_feature():
-    view_main.style.display = "none"
-    view_feature.style.display = "block"
+    view_main.classList.add("is-hidden")
+    view_feature.classList.remove("is-hidden")
+
+    view_x_caesar.classList.add("is-hidden")
 
 
 def show_main(id):
-    view_main.style.display = "block"
-    view_feature.style.display = "none"
+    view_main.classList.remove("is-hidden")
+    view_feature.classList.add("is-hidden")
     breadcrumb1.innerHTML = id.closest(":not(button)").previousElementSibling.innerHTML
     breadcrumb2.innerHTML = id.innerHTML
+
+
+def switch_input():
+    temp = input.value
+    input.value = output.value
+    output.value = temp
+
+
+def tab_encode_click(event):
+    if not tab_encode.classList.contains("is-active"):
+        tab_encode.classList.add("is-active")
+        tab_decode.classList.remove("is-active")
+        is_encode.value = 1
+        switch_input()
+
+
+def tab_decode_click(event):
+    if not tab_decode.classList.contains("is-active"):
+        tab_encode.classList.remove("is-active")
+        tab_decode.classList.add("is-active")
+        is_encode.value = 0
+        switch_input()
 
 
 def goto_feature_click(event):
@@ -70,7 +99,7 @@ def x_numeral_click(event):
 
 def x_caesar_click(event):
     show_main(x_caesar)
-    view_x_caesar.style.display = "block"
+    view_x_caesar.classList.remove("is-hidden")
 
 
 def x_vigenere_click(event):
@@ -121,28 +150,32 @@ def x_caesar_shift_minus_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) - 1
 
 
+def x_caesar_encode_decode(text, s):
+    result = ""
+    for i in range(len(text)):
+        char = text[i]
+        if char.islower():
+            result += chr((ord(char) + s - 97) % 26 + 97)
+        elif char.isupper():
+            result += chr((ord(char) + s - 65) % 26 + 65)
+        else:
+            result += char
+
+    return result
+
+
 def x_caesar_process_click(event):
-    shift = int(x_caesar_shift.value)
-    plaintext = input.value
-    ciphertext = x_caesar_encrypt(plaintext, shift)
-    output.value = ciphertext
-
-
-def x_caesar_encrypt(plaintext, key_val):
-    ciphertext = ""
-    for i in range(len(plaintext)):
-        char = plaintext[i]
-        new_char = char.lower()
-        if new_char == " ":
-            ciphertext += " "
-        elif char.isalpha():
-            ciphertext += chr((ord(new_char) + key_val - 97) % 26 + 97)
-
-    return ciphertext
+    if int(is_encode.value) == 1:
+        output.value = x_caesar_encode_decode(input.value, int(x_caesar_shift.value))
+    else:
+        output.value = x_caesar_encode_decode(input.value, -int(x_caesar_shift.value))
 
 
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
+
+    tab_encode.addEventListener("click", create_proxy(tab_encode_click))
+    tab_decode.addEventListener("click", create_proxy(tab_decode_click))
 
     x_replace.addEventListener("click", create_proxy(x_replace_click))
     x_reverse.addEventListener("click", create_proxy(x_reverse_click))
