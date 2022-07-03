@@ -27,6 +27,7 @@ view_main = Element("view_main").element
 
 view_x_replace = Element("view_x_replace").element
 view_x_reverse = Element("view_x_reverse").element
+view_x_case = Element("view_x_case").element
 view_x_caesar = Element("view_x_caesar").element
 
 is_encode = Element("is_encode").element
@@ -45,6 +46,13 @@ x_reverse_char = Element("x_reverse_char").element
 x_reverse_line = Element("x_reverse_line").element
 x_reverse_process = Element("x_reverse_process").element
 
+x_case_lower = Element("x_case_lower").element
+x_case_upper = Element("x_case_upper").element
+x_case_cap = Element("x_case_cap").element
+x_case_alt = Element("x_case_alt").element
+x_case_inv = Element("x_case_inv").element
+x_case_process = Element("x_case_process").element
+
 x_caesar_shift = Element("x_caesar_shift").element
 x_caesar_shift_p = Element("x_caesar_shift_plus").element
 x_caesar_shift_m = Element("x_caesar_shift_minus").element
@@ -57,8 +65,10 @@ def show_feature():
     view_feature.classList.remove("is-hidden")
     input.value = ""
     output.value = ""
-    view_x_caesar.classList.add("is-hidden")
     view_x_replace.classList.add("is-hidden")
+    view_x_reverse.classList.add("is-hidden")
+    view_x_case.classList.add("is-hidden")
+    view_x_caesar.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -106,6 +116,7 @@ def x_reverse_click(event):
 
 def x_case_click(event):
     show_main(x_case)
+    view_x_case.classList.remove("is-hidden")
 
 
 def x_numeral_click(event):
@@ -188,6 +199,29 @@ def x_reverse_process_click(event):
         output.value = "\n".join(temp)
 
 
+def x_case_process_click(event):
+    x = input.value
+    if x_case_lower.checked:
+        output.value = x.lower()
+    elif x_case_upper.checked:
+        output.value = x.upper()
+    elif x_case_cap.checked:
+        temp = []
+        for word in x.split(" "):
+            temp.append(word.capitalize())
+        output.value = " ".join(temp)
+    elif x_case_alt.checked:
+        temp = []
+        for i, c in enumerate(x):
+            if i % 2 == 0:
+                temp.append(c.lower())
+            else:
+                temp.append(c.upper())
+        output.value = "".join(temp)
+    elif x_case_inv.checked:
+        output.value = x.swapcase()
+
+
 def x_caesar_shift_p_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) + 1
 
@@ -241,6 +275,7 @@ def main():
 
     x_replace_process.addEventListener("click", create_proxy(x_replace_process_click))
     x_reverse_process.addEventListener("click", create_proxy(x_reverse_process_click))
+    x_case_process.addEventListener("click", create_proxy(x_case_process_click))
     x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
     x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
