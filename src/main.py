@@ -1,4 +1,5 @@
 import base64
+import urllib.parse
 from pyodide import create_proxy
 from js import console
 
@@ -35,6 +36,7 @@ view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
 view_x_unicode = Element("view_x_unicode").element
+view_x_url_encode = Element("view_x_url_encode").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -97,6 +99,8 @@ x_unicode_ndec = Element("x_unicode_ndec").element
 x_unicode_nhex = Element("x_unicode_nhex").element
 x_unicode_process = Element("x_unicode_process").element
 
+x_url_enc_process = Element("x_url_encode_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -112,6 +116,7 @@ def show_feature():
     view_x_base64.classList.add("is-hidden")
     view_x_ascii85.classList.add("is-hidden")
     view_x_unicode.classList.add("is-hidden")
+    view_x_url_encode.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -206,6 +211,7 @@ def x_unicode_click(event):
 
 def x_url_encode_click(event):
     show_main(x_url_encode)
+    view_x_url_encode.classList.remove("is-hidden")
 
 
 def x_hash_func_click(event):
@@ -456,6 +462,15 @@ def x_unicode_process_click(event):
             output.value = "".join(temp)
 
 
+def x_url_enc_process_click(event):
+    x = input.value
+
+    if int(is_encode.value) == 1:
+        output.value = urllib.parse.quote(x, safe="")
+    else:
+        output.value = urllib.parse.unquote(x)
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -489,6 +504,7 @@ def main():
     x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
     x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
     x_unicode_process.addEventListener("click", create_proxy(x_unicode_process_click))
+    x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
 
 
 main()
