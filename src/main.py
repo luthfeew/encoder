@@ -1,4 +1,5 @@
 import base64
+import hashlib
 import urllib.parse
 from pyodide import create_proxy
 from js import console
@@ -37,6 +38,7 @@ view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
 view_x_unicode = Element("view_x_unicode").element
 view_x_url_encode = Element("view_x_url_encode").element
+view_x_hash = Element("view_x_hash").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -101,10 +103,18 @@ x_unicode_process = Element("x_unicode_process").element
 
 x_url_enc_process = Element("x_url_encode_process").element
 
+x_hash_md5 = Element("x_hash_md5").element
+x_hash_sha1 = Element("x_hash_sha1").element
+x_hash_sha256 = Element("x_hash_sha256").element
+x_hash_sha384 = Element("x_hash_sha384").element
+x_hash_sha512 = Element("x_hash_sha512").element
+x_hash_process = Element("x_hash_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
     view_feature.classList.remove("is-hidden")
+    tab_decode.classList.remove("is-hidden")
     input.value = ""
     output.value = ""
     view_x_replace.classList.add("is-hidden")
@@ -117,6 +127,7 @@ def show_feature():
     view_x_ascii85.classList.add("is-hidden")
     view_x_unicode.classList.add("is-hidden")
     view_x_url_encode.classList.add("is-hidden")
+    view_x_hash.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -216,6 +227,10 @@ def x_url_encode_click(event):
 
 def x_hash_func_click(event):
     show_main(x_hash_func)
+    view_x_hash.classList.remove("is-hidden")
+    tab_decode.classList.remove("is-active")
+    tab_decode.classList.add("is-hidden")
+    tab_encode.classList.add("is-active")
 
 
 def x_hmac_click(event):
@@ -471,6 +486,21 @@ def x_url_enc_process_click(event):
         output.value = urllib.parse.unquote(x)
 
 
+def x_hash_process_click(event):
+    x = input.value
+
+    if x_hash_md5.checked:
+        output.value = hashlib.md5(x.encode()).hexdigest()
+    elif x_hash_sha1.checked:
+        output.value = hashlib.sha1(x.encode()).hexdigest()
+    elif x_hash_sha256.checked:
+        output.value = hashlib.sha256(x.encode()).hexdigest()
+    elif x_hash_sha384.checked:
+        output.value = hashlib.sha384(x.encode()).hexdigest()
+    elif x_hash_sha512.checked:
+        output.value = hashlib.sha512(x.encode()).hexdigest()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -505,6 +535,7 @@ def main():
     x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
     x_unicode_process.addEventListener("click", create_proxy(x_unicode_process_click))
     x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
+    x_hash_process.addEventListener("click", create_proxy(x_hash_process_click))
 
 
 main()
