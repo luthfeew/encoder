@@ -649,7 +649,7 @@ def x_hash_process_click(event):
 
 def x_hmac_process_click(event):
     x = input.value
-    k = binascii.unhexlify(x_hmac_key.value)
+    k = binascii.unhexlify(x_hmac_key.value).strip()
 
     if x_hmac_md5.checked:
         output.value = hmac.new(k, x.encode(), hashlib.md5).hexdigest()
