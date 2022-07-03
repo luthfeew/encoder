@@ -105,7 +105,22 @@
                                     No
                                 </label>
                             </div>
-                            <button class="button is-rounded is-fullwidth mt-3" id="x_replace_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_replace_process">Process</button>
+                        </div>
+
+                        <div class="is-hidden" id="view_x_reverse">
+                            <label class="label">By</label>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_reverse_by" id="x_reverse_char" checked>
+                                    Character
+                                </label>
+                                <label class="radio">
+                                    <input type="radio" name="x_reverse_by" id="x_reverse_line">
+                                    Line
+                                </label>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_reverse_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_caesar">
@@ -146,7 +161,7 @@
                     <div class="box">
                         <h1 class="title">Title</h1>
                         <h2 class="subtitle">Output</h2>
-                        <textarea class="textarea" placeholder="e.g. Hello world" id="output" readonly></textarea>
+                        <textarea class="textarea" id="output" readonly></textarea>
                     </div>
                 </div>
             </div>

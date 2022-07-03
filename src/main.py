@@ -26,6 +26,7 @@ view_feature = Element("view_feature").element
 view_main = Element("view_main").element
 
 view_x_replace = Element("view_x_replace").element
+view_x_reverse = Element("view_x_reverse").element
 view_x_caesar = Element("view_x_caesar").element
 
 is_encode = Element("is_encode").element
@@ -40,9 +41,13 @@ x_replace_replace = Element("x_replace_replace").element
 x_replace_case_n = Element("x_replace_case_n").element
 x_replace_process = Element("x_replace_process").element
 
+x_reverse_char = Element("x_reverse_char").element
+x_reverse_line = Element("x_reverse_line").element
+x_reverse_process = Element("x_reverse_process").element
+
 x_caesar_shift = Element("x_caesar_shift").element
-x_caesar_shift_plus = Element("x_caesar_shift_plus").element
-x_caesar_shift_minus = Element("x_caesar_shift_minus").element
+x_caesar_shift_p = Element("x_caesar_shift_plus").element
+x_caesar_shift_m = Element("x_caesar_shift_minus").element
 # x_caesar_case = Element("x_caesar_case").element
 x_caesar_process = Element("x_caesar_process").element
 
@@ -52,7 +57,6 @@ def show_feature():
     view_feature.classList.remove("is-hidden")
     input.value = ""
     output.value = ""
-
     view_x_caesar.classList.add("is-hidden")
     view_x_replace.classList.add("is-hidden")
 
@@ -97,6 +101,7 @@ def x_replace_click(event):
 
 def x_reverse_click(event):
     show_main(x_reverse)
+    view_x_reverse.classList.remove("is-hidden")
 
 
 def x_case_click(event):
@@ -171,11 +176,23 @@ def x_replace_process_click(event):
         output.value = x.replace(replace, find)
 
 
-def x_caesar_shift_plus_click(event):
+def x_reverse_process_click(event):
+    x = input.value
+    if x_reverse_char.checked:
+        output.value = x[::-1]
+    else:
+        temp = []
+        for line in x.split("\n"):
+            temp.append(line)
+        temp.reverse()
+        output.value = "\n".join(temp)
+
+
+def x_caesar_shift_p_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) + 1
 
 
-def x_caesar_shift_minus_click(event):
+def x_caesar_shift_m_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) - 1
 
 
@@ -223,13 +240,9 @@ def main():
     x_hmac.addEventListener("click", create_proxy(x_hmac_click))
 
     x_replace_process.addEventListener("click", create_proxy(x_replace_process_click))
-
-    x_caesar_shift_plus.addEventListener(
-        "click", create_proxy(x_caesar_shift_plus_click)
-    )
-    x_caesar_shift_minus.addEventListener(
-        "click", create_proxy(x_caesar_shift_minus_click)
-    )
+    x_reverse_process.addEventListener("click", create_proxy(x_reverse_process_click))
+    x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
+    x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
 
 
