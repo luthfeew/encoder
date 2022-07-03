@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
+    <!-- <py-env>
+        - pyzmq
+    </py-env> -->
 </head>
 
 <body>
@@ -280,6 +283,25 @@
                                 </div>
                             </div>
                             <button class="button is-rounded is-fullwidth mt-4" id="x_base64_process">Process</button>
+                        </div>
+
+                        <div class="is-hidden" id="view_x_ascii85">
+                            <div class="field">
+                                <label class="label">Variant</label>
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="x_ascii85_variant" id="x_ascii85_ori" checked>
+                                        Original
+                                    </label>
+                                </div>
+                                <!-- <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="x_ascii85_variant" id="x_ascii85_z85">
+                                        Z85 (ZeroMQ)
+                                    </label>
+                                </div> -->
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_ascii85_process">Process</button>
                         </div>
 
                     </div>

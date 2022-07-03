@@ -33,6 +33,7 @@ view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
 view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
+view_x_ascii85 = Element("view_x_ascii85").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -81,6 +82,10 @@ x_base64_std = Element("x_base64_std").element
 x_base64_url = Element("x_base64_url").element
 x_base64_process = Element("x_base64_process").element
 
+x_ascii85_std = Element("x_ascii85_std").element
+# x_ascii85_z85 = Element("x_ascii85_z85").element
+x_ascii85_process = Element("x_ascii85_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -94,6 +99,7 @@ def show_feature():
     view_x_caesar.classList.add("is-hidden")
     view_x_base32.classList.add("is-hidden")
     view_x_base64.classList.add("is-hidden")
+    view_x_ascii85.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -178,6 +184,7 @@ def x_base64_click(event):
 
 def x_ascii85_click(event):
     show_main(x_ascii85)
+    view_x_ascii85.classList.remove("is-hidden")
 
 
 def x_unicode_click(event):
@@ -335,6 +342,15 @@ def x_base64_process_click(event):
             output.value = base64.urlsafe_b64decode(x + "==").decode()
 
 
+def x_ascii85_process_click(event):
+    x = input.value
+
+    if int(is_encode.value) == 1:
+        output.value = base64.a85encode(x.encode()).decode()
+    else:
+        output.value = base64.a85decode(x).decode()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -366,6 +382,7 @@ def main():
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
     x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
     x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
+    x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
 
 
 main()
