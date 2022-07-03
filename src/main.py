@@ -28,6 +28,7 @@ view_main = Element("view_main").element
 view_x_replace = Element("view_x_replace").element
 view_x_reverse = Element("view_x_reverse").element
 view_x_case = Element("view_x_case").element
+view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
 
 is_encode = Element("is_encode").element
@@ -53,6 +54,16 @@ x_case_alt = Element("x_case_alt").element
 x_case_inv = Element("x_case_inv").element
 x_case_process = Element("x_case_process").element
 
+x_numeral_r2 = Element("x_numeral_r2").element
+x_numeral_r8 = Element("x_numeral_r8").element
+x_numeral_r10 = Element("x_numeral_r10").element
+x_numeral_r16 = Element("x_numeral_r16").element
+x_numeral_t2 = Element("x_numeral_t2").element
+x_numeral_t8 = Element("x_numeral_t8").element
+x_numeral_t10 = Element("x_numeral_t10").element
+x_numeral_t16 = Element("x_numeral_t16").element
+x_numeral_process = Element("x_numeral_process").element
+
 x_caesar_shift = Element("x_caesar_shift").element
 x_caesar_shift_p = Element("x_caesar_shift_plus").element
 x_caesar_shift_m = Element("x_caesar_shift_minus").element
@@ -68,6 +79,7 @@ def show_feature():
     view_x_replace.classList.add("is-hidden")
     view_x_reverse.classList.add("is-hidden")
     view_x_case.classList.add("is-hidden")
+    view_x_numeral.classList.add("is-hidden")
     view_x_caesar.classList.add("is-hidden")
 
 
@@ -121,6 +133,7 @@ def x_case_click(event):
 
 def x_numeral_click(event):
     show_main(x_numeral)
+    view_x_numeral.classList.remove("is-hidden")
 
 
 def x_caesar_click(event):
@@ -222,6 +235,30 @@ def x_case_process_click(event):
         output.value = x.swapcase()
 
 
+def x_numeral_process_click(event):
+    x = input.value
+
+    if x_numeral_r2.checked:
+        x = int(x, 2)
+    elif x_numeral_r8.checked:
+        x = int(x, 8)
+    elif x_numeral_r10.checked:
+        x = int(x)
+    elif x_numeral_r16.checked:
+        x = int(x, 16)
+
+    if x_numeral_t2.checked:
+        x = bin(int(x))[2:]
+    elif x_numeral_t8.checked:
+        x = oct(int(x))[2:]
+    elif x_numeral_t10.checked:
+        x = str(int(x))
+    elif x_numeral_t16.checked:
+        x = hex(int(x))[2:]
+
+    output.value = x
+
+
 def x_caesar_shift_p_click(event):
     x_caesar_shift.value = int(x_caesar_shift.value) + 1
 
@@ -276,6 +313,7 @@ def main():
     x_replace_process.addEventListener("click", create_proxy(x_replace_process_click))
     x_reverse_process.addEventListener("click", create_proxy(x_reverse_process_click))
     x_case_process.addEventListener("click", create_proxy(x_case_process_click))
+    x_numeral_process.addEventListener("click", create_proxy(x_numeral_process_click))
     x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
     x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
