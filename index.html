@@ -397,6 +397,48 @@
                             <button class="button is-rounded is-fullwidth mt-4" id="x_hash_process">Process</button>
                         </div>
 
+                        <div class="is-hidden" id="view_x_hmac">
+                            <div class="field">
+                                <label class="label">Key</label>
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" placeholder="hexadecimal digit only"
+                                        id="x_hmac_key">
+                                </div>
+                            </div>
+                            <label class="label">Algorithm</label>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_hmac_alg" id="x_hmac_md5">
+                                    MD5
+                                </label>
+                            </div>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_hmac_alg" id="x_hmac_sha1">
+                                    SHA-1
+                                </label>
+                            </div>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_hmac_alg" id="x_hmac_sha256" checked>
+                                    SHA-256
+                                </label>
+                            </div>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_hmac_alg" id="x_hmac_sha384">
+                                    SHA-384
+                                </label>
+                            </div>
+                            <div class="control">
+                                <label class="radio">
+                                    <input type="radio" name="x_hmac_alg" id="x_hmac_sha512">
+                                    SHA-512
+                                </label>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_hmac_process">Process</button>
+                        </div>
+
                     </div>
                 </div>
                 <div class="column">

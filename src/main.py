@@ -1,5 +1,7 @@
 import base64
 import hashlib
+import hmac
+import binascii
 import urllib.parse
 from pyodide import create_proxy
 from js import console
@@ -39,6 +41,7 @@ view_x_ascii85 = Element("view_x_ascii85").element
 view_x_unicode = Element("view_x_unicode").element
 view_x_url_encode = Element("view_x_url_encode").element
 view_x_hash = Element("view_x_hash").element
+view_x_hmac = Element("view_x_hmac").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -110,6 +113,14 @@ x_hash_sha384 = Element("x_hash_sha384").element
 x_hash_sha512 = Element("x_hash_sha512").element
 x_hash_process = Element("x_hash_process").element
 
+x_hmac_key = Element("x_hmac_key").element
+x_hmac_md5 = Element("x_hmac_md5").element
+x_hmac_sha1 = Element("x_hmac_sha1").element
+x_hmac_sha256 = Element("x_hmac_sha256").element
+x_hmac_sha384 = Element("x_hmac_sha384").element
+x_hmac_sha512 = Element("x_hmac_sha512").element
+x_hmac_process = Element("x_hmac_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -128,6 +139,7 @@ def show_feature():
     view_x_unicode.classList.add("is-hidden")
     view_x_url_encode.classList.add("is-hidden")
     view_x_hash.classList.add("is-hidden")
+    view_x_hmac.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -143,19 +155,27 @@ def switch_input():
     output.value = temp
 
 
+def encode_view():
+    tab_encode.classList.add("is-active")
+    tab_decode.classList.remove("is-active")
+    is_encode.value = 1
+
+
+def decode_view():
+    tab_encode.classList.remove("is-active")
+    tab_decode.classList.add("is-active")
+    is_encode.value = 0
+
+
 def tab_encode_click(event):
     if not tab_encode.classList.contains("is-active"):
-        tab_encode.classList.add("is-active")
-        tab_decode.classList.remove("is-active")
-        is_encode.value = 1
+        encode_view()
         switch_input()
 
 
 def tab_decode_click(event):
     if not tab_decode.classList.contains("is-active"):
-        tab_encode.classList.remove("is-active")
-        tab_decode.classList.add("is-active")
-        is_encode.value = 0
+        decode_view()
         switch_input()
 
 
@@ -228,13 +248,15 @@ def x_url_encode_click(event):
 def x_hash_func_click(event):
     show_main(x_hash_func)
     view_x_hash.classList.remove("is-hidden")
-    tab_decode.classList.remove("is-active")
     tab_decode.classList.add("is-hidden")
-    tab_encode.classList.add("is-active")
+    encode_view()
 
 
 def x_hmac_click(event):
     show_main(x_hmac)
+    view_x_hmac.classList.remove("is-hidden")
+    tab_decode.classList.add("is-hidden")
+    encode_view()
 
 
 ################################################################################
@@ -501,6 +523,22 @@ def x_hash_process_click(event):
         output.value = hashlib.sha512(x.encode()).hexdigest()
 
 
+def x_hmac_process_click(event):
+    x = input.value
+    k = binascii.unhexlify(x_hmac_key.value)
+
+    if x_hmac_md5.checked:
+        output.value = hmac.new(k, x.encode(), hashlib.md5).hexdigest()
+    elif x_hmac_sha1.checked:
+        output.value = hmac.new(k, x.encode(), hashlib.sha1).hexdigest()
+    elif x_hmac_sha256.checked:
+        output.value = hmac.new(k, x.encode(), hashlib.sha256).hexdigest()
+    elif x_hmac_sha384.checked:
+        output.value = hmac.new(k, x.encode(), hashlib.sha384).hexdigest()
+    elif x_hmac_sha512.checked:
+        output.value = hmac.new(k, x.encode(), hashlib.sha512).hexdigest()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -536,6 +574,7 @@ def main():
     x_unicode_process.addEventListener("click", create_proxy(x_unicode_process_click))
     x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
     x_hash_process.addEventListener("click", create_proxy(x_hash_process_click))
+    x_hmac_process.addEventListener("click", create_proxy(x_hmac_process_click))
 
 
 main()
