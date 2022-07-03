@@ -32,6 +32,7 @@ view_x_case = Element("view_x_case").element
 view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
 view_x_base32 = Element("view_x_base32").element
+view_x_base64 = Element("view_x_base64").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -76,6 +77,10 @@ x_base32_std = Element("x_base32_std").element
 x_base32_hex = Element("x_base32_hex").element
 x_base32_process = Element("x_base32_process").element
 
+x_base64_std = Element("x_base64_std").element
+x_base64_url = Element("x_base64_url").element
+x_base64_process = Element("x_base64_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -88,6 +93,7 @@ def show_feature():
     view_x_numeral.classList.add("is-hidden")
     view_x_caesar.classList.add("is-hidden")
     view_x_base32.classList.add("is-hidden")
+    view_x_base64.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -167,6 +173,7 @@ def x_base32_click(event):
 
 def x_base64_click(event):
     show_main(x_base64)
+    view_x_base64.classList.remove("is-hidden")
 
 
 def x_ascii85_click(event):
@@ -311,6 +318,23 @@ def x_base32_process_click(event):
             output.value = base64.b32hexdecode(x).decode()
 
 
+def x_base64_process_click(event):
+    x = input.value
+
+    if int(is_encode.value) == 1:
+        if x_base64_std.checked:
+            output.value = base64.b64encode(x.encode()).decode()
+        elif x_base64_url.checked:
+            output.value = (
+                base64.urlsafe_b64encode(x.encode()).decode().replace("=", "")
+            )
+    else:
+        if x_base64_std.checked:
+            output.value = base64.b64decode(x + "==").decode()
+        elif x_base64_url.checked:
+            output.value = base64.urlsafe_b64decode(x + "==").decode()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -341,6 +365,7 @@ def main():
     x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
     x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
+    x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
 
 
 main()
