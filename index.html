@@ -54,7 +54,7 @@
         </div>
     </section>
 
-    <section class="section has-background-white-ter is-hidden" id="view_main">
+    <section class="section has-background-white-ter" id="view_main">
         <div class="container is-fullhd">
             <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
                 <ul>
@@ -242,6 +242,25 @@
                                 </div>
                             </div> -->
                             <button class="button is-rounded is-fullwidth" id="x_caesar_process">Process</button>
+                        </div>
+
+                        <div class="" id="view_x_base32">
+                            <div class="field">
+                                <label class="label">Variant</label>
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="x_base32_variant" id="x_base32_std" checked>
+                                        Base32 (RFC 3548, RFC 4648)
+                                    </label>
+                                </div>
+                                <div class="control">
+                                    <label class="radio">
+                                        <input type="radio" name="x_base32_variant" id="x_base32_hex">
+                                        Base32hex (RFC 4648)
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_base32_process">Process</button>
                         </div>
 
                     </div>

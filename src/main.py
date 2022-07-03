@@ -1,3 +1,4 @@
+import base64
 from pyodide import create_proxy
 from js import console
 
@@ -30,6 +31,7 @@ view_x_reverse = Element("view_x_reverse").element
 view_x_case = Element("view_x_case").element
 view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
+view_x_base32 = Element("view_x_base32").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -70,6 +72,10 @@ x_caesar_shift_m = Element("x_caesar_shift_minus").element
 # x_caesar_case = Element("x_caesar_case").element
 x_caesar_process = Element("x_caesar_process").element
 
+x_base32_std = Element("x_base32_std").element
+x_base32_hex = Element("x_base32_hex").element
+x_base32_process = Element("x_base32_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -81,6 +87,7 @@ def show_feature():
     view_x_case.classList.add("is-hidden")
     view_x_numeral.classList.add("is-hidden")
     view_x_caesar.classList.add("is-hidden")
+    view_x_base32.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -155,6 +162,7 @@ def x_rail_fence_click(event):
 
 def x_base32_click(event):
     show_main(x_base32)
+    view_x_base32.classList.remove("is-hidden")
 
 
 def x_base64_click(event):
@@ -288,6 +296,21 @@ def x_caesar_process_click(event):
         output.value = x_caesar_encode_decode(input.value, -int(x_caesar_shift.value))
 
 
+def x_base32_process_click(event):
+    x = input.value
+
+    if int(is_encode.value) == 1:
+        if x_base32_std.checked:
+            output.value = base64.b32encode(x.encode()).decode()
+        elif x_base32_hex.checked:
+            output.value = base64.b32hexencode(x.encode()).decode()
+    else:
+        if x_base32_std.checked:
+            output.value = base64.b32decode(x).decode()
+        elif x_base32_hex.checked:
+            output.value = base64.b32hexdecode(x).decode()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -317,6 +340,7 @@ def main():
     x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
     x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
+    x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
 
 
 main()
