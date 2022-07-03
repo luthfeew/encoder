@@ -34,6 +34,7 @@ view_x_caesar = Element("view_x_caesar").element
 view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
+view_x_unicode = Element("view_x_unicode").element
 
 is_encode = Element("is_encode").element
 tab_encode = Element("tab_encode").element
@@ -86,6 +87,16 @@ x_ascii85_std = Element("x_ascii85_std").element
 # x_ascii85_z85 = Element("x_ascii85_z85").element
 x_ascii85_process = Element("x_ascii85_process").element
 
+x_unicode_sep = Element("x_unicode_sep").element
+x_unicode_unc = Element("x_unicode_unc").element
+x_unicode_dec = Element("x_unicode_dec").element
+x_unicode_hex = Element("x_unicode_hex").element
+x_unicode_bin = Element("x_unicode_bin").element
+x_unicode_oct = Element("x_unicode_oct").element
+x_unicode_ndec = Element("x_unicode_ndec").element
+x_unicode_nhex = Element("x_unicode_nhex").element
+x_unicode_process = Element("x_unicode_process").element
+
 
 def show_feature():
     view_main.classList.add("is-hidden")
@@ -100,6 +111,7 @@ def show_feature():
     view_x_base32.classList.add("is-hidden")
     view_x_base64.classList.add("is-hidden")
     view_x_ascii85.classList.add("is-hidden")
+    view_x_unicode.classList.add("is-hidden")
 
 
 def show_main(id):
@@ -189,6 +201,7 @@ def x_ascii85_click(event):
 
 def x_unicode_click(event):
     show_main(x_unicode)
+    view_x_unicode.classList.remove("is-hidden")
 
 
 def x_url_encode_click(event):
@@ -351,6 +364,98 @@ def x_ascii85_process_click(event):
         output.value = base64.a85decode(x).decode()
 
 
+def x_unicode_process_click(event):
+    x = input.value
+
+    if x_unicode_sep.value == "":
+        sep = " "
+    else:
+        sep = x_unicode_sep.value
+
+    if int(is_encode.value) == 1:
+        if x_unicode_unc.checked:
+            temp = []
+            for i in range(len(x)):
+                unc = base64.b16encode(x[i].encode()).decode()
+                temp.append("U+" + str(unc))
+            output.value = sep.join(temp)
+        if x_unicode_dec.checked:
+            temp = []
+            for i in range(len(x)):
+                temp.append(str(ord(x[i])))
+            output.value = sep.join(temp)
+        if x_unicode_hex.checked:
+            temp = []
+            for i in range(len(x)):
+                temp.append(hex(ord(x[i])).replace("0x", ""))
+            output.value = sep.join(temp)
+        if x_unicode_bin.checked:
+            temp = []
+            for i in range(len(x)):
+                temp.append(bin(ord(x[i])).replace("0b", ""))
+            output.value = sep.join(temp)
+        if x_unicode_oct.checked:
+            temp = []
+            for i in range(len(x)):
+                temp.append(oct(ord(x[i])).replace("0o", ""))
+            output.value = sep.join(temp)
+        if x_unicode_ndec.checked:
+            temp = []
+            for i in range(len(x)):
+                ncr = str(ord(x[i]))
+                temp.append("&#" + str(ncr) + ";")
+            output.value = sep.join(temp)
+        if x_unicode_nhex.checked:
+            temp = []
+            for i in range(len(x)):
+                ncr = hex(ord(x[i])).replace("0x", "")
+                temp.append("&#x" + str(ncr) + ";")
+            output.value = sep.join(temp)
+    else:
+        if x_unicode_unc.checked:
+            y = x.strip().replace("U+", "").split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(base64.b16decode(y[i].encode()).decode())
+            output.value = "".join(temp)
+        if x_unicode_dec.checked:
+            y = x.strip().split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i])))
+            output.value = "".join(temp)
+        if x_unicode_hex.checked:
+            y = x.strip().split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i], 16)))
+            output.value = "".join(temp)
+        if x_unicode_bin.checked:
+            y = x.strip().split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i], 2)))
+            output.value = "".join(temp)
+        if x_unicode_oct.checked:
+            y = x.strip().split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i], 8)))
+            output.value = "".join(temp)
+        if x_unicode_ndec.checked:
+            y = x.strip().replace("&#", "").replace(";", "").split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i])))
+            output.value = "".join(temp)
+        if x_unicode_nhex.checked:
+            y = x.strip().replace("&#x", "").replace(";", "").split(sep)
+            temp = []
+            for i in range(len(y)):
+                temp.append(chr(int(y[i], 16)))
+            output.value = "".join(temp)
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -383,6 +488,7 @@ def main():
     x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
     x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
     x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
+    x_unicode_process.addEventListener("click", create_proxy(x_unicode_process_click))
 
 
 main()
