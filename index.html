@@ -247,6 +247,40 @@
                             <button class="button is-rounded is-fullwidth" id="x_caesar_process">Process</button>
                         </div>
 
+                        <div class="is-hidden" id="view_x_vigenere">
+                            <div class="field">
+                                <label class="label">Variant</label>
+                                <div class="control">
+                                    <div class="select is-rounded">
+                                        <select id="x_vigenere_variant">
+                                            <option value="0">Standard (26 huruf alfabet)</option>
+                                            <option value="1">Extended (256 karakter ASCII)</option>
+                                            <option value="2">Beaufort cipher</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Key</label>
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" id="x_vigenere_key">
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Mode</label>
+                                <div class="control">
+                                    <div class="select is-rounded">
+                                        <select id="x_vigenere_mode">
+                                            <option value="0">default</option>
+                                            <option value="1">remove space</option>
+                                            <option value="2">in groups of 5 letters</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-5" id="x_vigenere_process">Process</button>
+                        </div>
+
                         <div class="is-hidden" id="view_x_base32">
                             <div class="field">
                                 <label class="label">Variant</label>

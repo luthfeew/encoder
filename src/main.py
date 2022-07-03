@@ -35,6 +35,7 @@ view_x_reverse = Element("view_x_reverse").element
 view_x_case = Element("view_x_case").element
 view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
+view_x_vigenere = Element("view_x_vigenere").element
 view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
@@ -81,6 +82,11 @@ x_caesar_shift_p = Element("x_caesar_shift_plus").element
 x_caesar_shift_m = Element("x_caesar_shift_minus").element
 # x_caesar_case = Element("x_caesar_case").element
 x_caesar_process = Element("x_caesar_process").element
+
+x_vigenere_variant = Element("x_vigenere_variant").element
+x_vigenere_key = Element("x_vigenere_key").element
+x_vigenere_mode = Element("x_vigenere_mode").element
+x_vigenere_process = Element("x_vigenere_process").element
 
 x_base32_std = Element("x_base32_std").element
 x_base32_hex = Element("x_base32_hex").element
@@ -133,6 +139,7 @@ def show_feature():
     view_x_case.classList.add("is-hidden")
     view_x_numeral.classList.add("is-hidden")
     view_x_caesar.classList.add("is-hidden")
+    view_x_vigenere.classList.add("is-hidden")
     view_x_base32.classList.add("is-hidden")
     view_x_base64.classList.add("is-hidden")
     view_x_ascii85.classList.add("is-hidden")
@@ -210,6 +217,7 @@ def x_caesar_click(event):
 
 def x_vigenere_click(event):
     show_main(x_vigenere)
+    view_x_vigenere.classList.remove("is-hidden")
 
 
 def x_alphabetical_click(event):
@@ -364,6 +372,122 @@ def x_caesar_process_click(event):
         output.value = x_caesar_encode_decode(input.value, int(x_caesar_shift.value))
     else:
         output.value = x_caesar_encode_decode(input.value, -int(x_caesar_shift.value))
+
+
+def x_vigenere_encode(plaintext, num_key):
+    count = 0
+    ciphertext = ""
+
+    for i in range(len(plaintext)):
+        char0 = plaintext[i]
+
+        match int(x_vigenere_variant.value):
+            case 1:
+                if count < len(num_key):
+                    key1 = num_key[count]
+                    ciphertext += bytes([(ord(char0) + key1) % 256]).decode("latin-1")
+                    count += 1
+                if count == len(num_key):
+                    count = 0
+            case _:
+                char = char0.lower()
+                if char == " ":
+                    ciphertext += " "
+                elif char.isdigit():
+                    ciphertext += char
+                elif char.isalpha():
+                    if count < len(num_key):
+                        key1 = num_key[count]
+
+                        match int(x_vigenere_variant.value):
+                            case 0:
+                                ciphertext += chr((ord(char) + key1 - 97) % 26 + 97)
+                            case 2:
+                                ciphertext += chr(
+                                    (key1 - ord(char) + 97 % 26) % 26 + 97
+                                )
+
+                        count += 1
+                    if count == len(num_key):
+                        count = 0
+
+    if int(x_vigenere_variant.value) == 1:
+        ciphertext = base64.a85encode(ciphertext.encode("utf-8")).decode("utf-8")
+
+    return ciphertext
+
+
+def x_vigenere_decode(ciphertext, num_key):
+    count = 0
+    plaintext = ""
+
+    if int(x_vigenere_variant.value) == 1:
+        ciphertext = base64.a85decode(ciphertext).decode("utf-8")
+
+    for i in range(len(ciphertext)):
+        char0 = ciphertext[i]
+
+        match int(x_vigenere_variant.value):
+            case 1:
+                if count < len(num_key):
+                    key1 = num_key[count]
+                    plaintext += bytes(
+                        [(ord(char0.encode("latin-1")) - key1) % 256]
+                    ).decode("latin-1")
+                    count += 1
+                if count == len(num_key):
+                    count = 0
+            case _:
+                char = char0.lower()
+                if char == " ":
+                    plaintext += " "
+                elif char.isdigit():
+                    plaintext += char
+                elif char.isalpha():
+                    if count < len(num_key):
+                        key1 = num_key[count]
+
+                        match int(x_vigenere_variant.value):
+                            case 0:
+                                plaintext += chr((ord(char) - key1 - 97) % 26 + 97)
+                            case 2:
+                                plaintext += chr((key1 - ord(char) + 97 % 26) % 26 + 97)
+
+                        count += 1
+                    if count == len(num_key):
+                        count = 0
+
+    return plaintext
+
+
+def x_vigenere_process_click(event):
+    x = input.value
+    key0 = x_vigenere_key.value
+
+    num_key = []
+    key = key0.lower()
+
+    for i in range(len(key)):
+        key1 = key[i]
+        num_key.append(ord(key1) - 97)
+
+    match int(is_encode.value):
+        case 0:
+            y = x_vigenere_decode(x, num_key)
+        case 1:
+            y = x_vigenere_encode(x, num_key)
+
+    match int(x_vigenere_mode.value):
+        case 1:
+            y = y.replace(" ", "")
+        case 2:
+            y = y.replace(" ", "")
+            y = [y[i : i + 5] for i in range(0, len(y), 5)]
+            y = " ".join(y)
+        case _:
+            y = y
+
+    output.value = y
 
 
 def x_base32_process_click(event):
@@ -568,6 +692,7 @@ def main():
     x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
     x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
+    x_vigenere_process.addEventListener("click", create_proxy(x_vigenere_process_click))
     x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
     x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
     x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
