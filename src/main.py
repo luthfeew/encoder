@@ -4,7 +4,9 @@ import hmac
 import binascii
 import urllib.parse
 from pyodide import create_proxy
-from js import console
+from js import document, console
+
+page_loading = Element("page_loading").element
 
 x_replace = Element("x_replace").element
 x_reverse = Element("x_reverse").element
@@ -14,6 +16,7 @@ x_caesar = Element("x_caesar").element
 x_vigenere = Element("x_vigenere").element
 x_alphabetical = Element("x_alphabetical").element
 x_rail_fence = Element("x_rail_fence").element
+x_hill = Element("x_hill").element
 x_base32 = Element("x_base32").element
 x_base64 = Element("x_base64").element
 x_ascii85 = Element("x_ascii85").element
@@ -128,6 +131,11 @@ x_hmac_sha512 = Element("x_hmac_sha512").element
 x_hmac_process = Element("x_hmac_process").element
 
 
+def loading_done():
+    page_loading.classList.add("is-hidden")
+    show_feature()
+
+
 def show_feature():
     view_main.classList.add("is-hidden")
     view_feature.classList.remove("is-hidden")
@@ -226,6 +234,10 @@ def x_alphabetical_click(event):
 
 def x_rail_fence_click(event):
     show_main(x_rail_fence)
+
+
+def x_hill_click(event):
+    show_main(x_hill)
 
 
 def x_base32_click(event):
@@ -677,6 +689,7 @@ def main():
     x_vigenere.addEventListener("click", create_proxy(x_vigenere_click))
     x_alphabetical.addEventListener("click", create_proxy(x_alphabetical_click))
     x_rail_fence.addEventListener("click", create_proxy(x_rail_fence_click))
+    x_hill.addEventListener("click", create_proxy(x_hill_click))
     x_base32.addEventListener("click", create_proxy(x_base32_click))
     x_base64.addEventListener("click", create_proxy(x_base64_click))
     x_ascii85.addEventListener("click", create_proxy(x_ascii85_click))
@@ -700,6 +713,8 @@ def main():
     x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
     x_hash_process.addEventListener("click", create_proxy(x_hash_process_click))
     x_hmac_process.addEventListener("click", create_proxy(x_hmac_process_click))
+
+    loading_done()
 
 
 main()

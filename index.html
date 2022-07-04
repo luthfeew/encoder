@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kriptografi</title>
+    <title>Encoder</title>
     <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
@@ -20,12 +20,25 @@
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p class="title">
-                Kriptografi
+                Encoder
             </p>
         </div>
     </section>
 
-    <section class="section has-background-white-ter" id="view_feature">
+    <section class="hero has-background-white-ter is-halfheight" id="page_loading">
+        <div class="hero-body">
+            <div class="">
+                <p class="title">
+                    Page loading...
+                </p>
+                <p class="subtitle">
+                    <progress class="progress is-info" max="100"></progress>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-white-ter is-hidden" id="view_feature">
         <div class="container is-fluid">
             <h1 class="title is-5 mb-2">Transform</h1>
             <div class="buttons">
@@ -38,6 +51,7 @@
             <div class="buttons">
                 <button class="button is-rounded" id="x_caesar">Caesar cipher</button>
                 <button class="button is-rounded" id="x_vigenere">Vigenere cipher</button>
+                <button class="button is-rounded" id="x_hill">Hill cipher</button>
                 <button class="button is-rounded" id="x_alphabetical">Alphabetical subtitution</button>
                 <button class="button is-rounded" id="x_rail_fence">Rail fence cipher</button>
             </div>
@@ -69,7 +83,7 @@
             <div class="columns">
                 <div class="column">
                     <div class="box">
-                        <h1 class="title">Title</h1>
+                        <h1 class="title">Text</h1>
                         <h2 class="subtitle">Input</h2>
                         <textarea class="textarea" placeholder="e.g. Hello world" id="input"></textarea>
                     </div>
@@ -477,7 +491,7 @@
                 </div>
                 <div class="column">
                     <div class="box">
-                        <h1 class="title">Title</h1>
+                        <h1 class="title">Text</h1>
                         <h2 class="subtitle">Output</h2>
                         <textarea class="textarea" id="output" readonly></textarea>
                     </div>
@@ -489,7 +503,7 @@
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p>
-                <strong>Kriptografi</strong> &#8211; Web Application.
+                <strong>Encoder</strong> &#8211; Web Application.
                 <br>
                 Powered by <a href="https://pyscript.net" target="_blank">PyScript</a>.
                 Code licensed <a href="https://github.com/luthfeew/kp/blob/main/LICENSE" target="_blank">MIT</a>.
