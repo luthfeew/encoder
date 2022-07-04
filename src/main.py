@@ -3,8 +3,16 @@ import hashlib
 import hmac
 import binascii
 import urllib.parse
+import string
+import numpy as np
+from math import *
+from egcd import egcd
 from pyodide import create_proxy
 from js import console
+
+alphabet = string.ascii_lowercase
+letter_to_index = dict(zip(alphabet, range(len(alphabet))))
+index_to_letter = dict(zip(range(len(alphabet)), alphabet))
 
 page_loading = Element("page_loading").element
 
@@ -39,6 +47,7 @@ view_x_case = Element("view_x_case").element
 view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
 view_x_vigenere = Element("view_x_vigenere").element
+view_x_hill = Element("view_x_hill").element
 view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
@@ -130,6 +139,9 @@ x_hmac_sha384 = Element("x_hmac_sha384").element
 x_hmac_sha512 = Element("x_hmac_sha512").element
 x_hmac_process = Element("x_hmac_process").element
 
+x_hill_key = Element("x_hill_key").element
+x_hill_process = Element("x_hill_process").element
+
 
 def loading_done():
     page_loading.classList.add("is-hidden")
@@ -148,6 +160,7 @@ def show_feature():
     view_x_numeral.classList.add("is-hidden")
     view_x_caesar.classList.add("is-hidden")
     view_x_vigenere.classList.add("is-hidden")
+    view_x_hill.classList.add("is-hidden")
     view_x_base32.classList.add("is-hidden")
     view_x_base64.classList.add("is-hidden")
     view_x_ascii85.classList.add("is-hidden")
@@ -238,6 +251,7 @@ def x_rail_fence_click(event):
 
 def x_hill_click(event):
     show_main(x_hill)
+    view_x_hill.classList.remove("is-hidden")
 
 
 def x_base32_click(event):
@@ -502,6 +516,86 @@ def x_vigenere_process_click(event):
     output.value = y
 
 
+def matrix_mod_inv(matrix, modulus):
+    det = int(np.round(np.linalg.det(matrix)))
+    det_inv = egcd(det, modulus)[1] % modulus
+    matrix_modulus_inv = (
+        det_inv * np.round(det * np.linalg.inv(matrix)).astype(int) % modulus
+    )
+
+    return matrix_modulus_inv
+
+
+def x_hill_encode(message, K):
+    encrypted = ""
+    message_in_numbers = []
+
+    for letter in message:
+        message_in_numbers.append(letter_to_index[letter])
+
+    split_P = [
+        message_in_numbers[i : i + int(K.shape[0])]
+        for i in range(0, len(message_in_numbers), int(K.shape[0]))
+    ]
+
+    for P in split_P:
+        P = np.transpose(np.asarray(P))[:, np.newaxis]
+
+        while P.shape[0] != K.shape[0]:
+            P = np.append(P, letter_to_index[" "])[:, np.newaxis]
+
+        numbers = np.dot(K, P) % len(alphabet)
+        n = numbers.shape[0]
+
+        for idx in range(n):
+            number = int(numbers[idx, 0])
+            encrypted += index_to_letter[number]
+
+    return encrypted
+
+
+def x_hill_decode(cipher, Kinv):
+    decrypted = ""
+    cipher_in_numbers = []
+
+    for letter in cipher:
+        cipher_in_numbers.append(letter_to_index[letter])
+
+    split_C = [
+        cipher_in_numbers[i : i + int(Kinv.shape[0])]
+        for i in range(0, len(cipher_in_numbers), int(Kinv.shape[0]))
+    ]
+
+    for C in split_C:
+        C = np.transpose(np.asarray(C))[:, np.newaxis]
+        numbers = np.dot(Kinv, C) % len(alphabet)
+        n = numbers.shape[0]
+
+        for idx in range(n):
+            number = int(numbers[idx, 0])
+            decrypted += index_to_letter[number]
+
+    return decrypted
+
+
+def x_hill_process_click(event):
+    message = input.value.replace(" ", "")
+    key = x_hill_key.value.lower()
+
+    temp = []
+    for letter in key:
+        temp.append(letter_to_index[letter])
+    mtx = np.array(temp).reshape(int(len(temp) / 2), 2)
+
+    K = np.matrix(mtx)
+    Kinv = matrix_mod_inv(K, len(alphabet))
+
+    if int(is_encode.value) == 1:
+        output.value = x_hill_encode(message, K)
+    else:
+        output.value = x_hill_decode(message, Kinv)
+
+
 def x_base32_process_click(event):
     x = input.value
 
@@ -713,6 +807,7 @@ def main():
     x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
     x_hash_process.addEventListener("click", create_proxy(x_hash_process_click))
     x_hmac_process.addEventListener("click", create_proxy(x_hmac_process_click))
+    x_hill_process.addEventListener("click", create_proxy(x_hill_process_click))
 
     loading_done()
 

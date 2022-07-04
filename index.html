@@ -9,14 +9,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
     <script src="https://kit.fontawesome.com/b69de5aa18.js" crossorigin="anonymous"></script>
-    <!-- <py-env>
-        - pyzmq
-    </py-env> -->
+    <py-env>
+        - numpy
+        - egcd
+    </py-env>
 </head>
 
 <body>
-    <py-script src="src/main.py"></py-script>
-
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p class="title">
@@ -295,6 +294,17 @@
                             <button class="button is-rounded is-fullwidth mt-5" id="x_vigenere_process">Process</button>
                         </div>
 
+                        <div class="" id="view_x_hill">
+                            <div class="field">
+                                <label class="label">Key</label>
+                                <div class="control">
+                                    <input class="input is-rounded" type="text" id="x_hill_key" maxlength="4"
+                                        placeholder="kunci wajib 4 huruf alfabet">
+                                </div>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-5" id="x_hill_process">Process</button>
+                        </div>
+
                         <div class="is-hidden" id="view_x_base32">
                             <div class="field">
                                 <label class="label">Variant</label>
@@ -518,6 +528,8 @@
             </p>
         </div>
     </section>
+
+    <py-script src="src/main.py"></py-script>
 </body>
 
 </html>
