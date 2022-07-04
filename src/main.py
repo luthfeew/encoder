@@ -4,7 +4,7 @@ import hmac
 import binascii
 import urllib.parse
 from pyodide import create_proxy
-from js import document, console
+from js import console
 
 page_loading = Element("page_loading").element
 
