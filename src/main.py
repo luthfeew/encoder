@@ -582,6 +582,9 @@ def x_hill_process_click(event):
     message = input.value.replace(" ", "")
     key = x_hill_key.value.lower()
 
+    if len(message) % 2 != 0:
+        message += message[0]
+
     temp = []
     for letter in key:
         temp.append(letter_to_index[letter])
