@@ -13,6 +13,17 @@
         - numpy
         - egcd
     </py-env>
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 </head>
 
 <body>
@@ -51,7 +62,7 @@
                 <button class="button is-rounded" id="x_caesar">Caesar cipher</button>
                 <button class="button is-rounded" id="x_vigenere">Vigenere cipher</button>
                 <button class="button is-rounded" id="x_hill">Hill cipher</button>
-                <button class="button is-rounded" id="x_alphabetical">Alphabetical subtitution</button>
+                <!-- <button class="button is-rounded" id="x_alphabetical">Alphabetical subtitution</button> -->
                 <button class="button is-rounded" id="x_rail_fence">Rail fence cipher</button>
             </div>
             <h1 class="title is-5 mb-2">Encoding</h1>
@@ -84,7 +95,7 @@
                     <div class="box">
                         <h1 class="title">Text</h1>
                         <h2 class="subtitle">Input</h2>
-                        <textarea class="textarea" placeholder="e.g. Hello world" id="input"></textarea>
+                        <textarea class="textarea" id="input"></textarea>
                     </div>
                 </div>
                 <div class="column">
@@ -237,7 +248,7 @@
                                     </a>
                                 </div>
                                 <div class="control is-expanded">
-                                    <input class="input is-fullwidth has-text-centered" type="text" value="0"
+                                    <input class="input is-fullwidth has-text-centered" type="number" value="1"
                                         id="x_caesar_shift">
                                 </div>
                                 <div class="control">
@@ -257,7 +268,7 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <button class="button is-rounded is-fullwidth" id="x_caesar_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-5" id="x_caesar_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_vigenere">
@@ -294,7 +305,7 @@
                             <button class="button is-rounded is-fullwidth mt-5" id="x_vigenere_process">Process</button>
                         </div>
 
-                        <div class="" id="view_x_hill">
+                        <div class="is-hidden" id="view_x_hill">
                             <div class="field">
                                 <label class="label">Key</label>
                                 <div class="control">
@@ -303,6 +314,27 @@
                                 </div>
                             </div>
                             <button class="button is-rounded is-fullwidth mt-5" id="x_hill_process">Process</button>
+                        </div>
+
+                        <div class="is-hidden" id="view_x_rail">
+                            <label class="label">Key</label>
+                            <div class="field has-addons has-addons-centered">
+                                <div class="control">
+                                    <a class="button is-rounded" id="x_rail_minus">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </a>
+                                </div>
+                                <div class="control is-expanded">
+                                    <input class="input is-fullwidth has-text-centered" type="number" min="2" value="2"
+                                        id="x_rail_key">
+                                </div>
+                                <div class="control">
+                                    <a class="button is-rounded" id="x_rail_plus">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <button class="button is-rounded is-fullwidth mt-5" id="x_rail_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_base32">

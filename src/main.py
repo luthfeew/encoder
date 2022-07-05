@@ -22,7 +22,7 @@ x_case = Element("x_case_transform").element
 x_numeral = Element("x_numeral_system").element
 x_caesar = Element("x_caesar").element
 x_vigenere = Element("x_vigenere").element
-x_alphabetical = Element("x_alphabetical").element
+# x_alphabetical = Element("x_alphabetical").element
 x_rail_fence = Element("x_rail_fence").element
 x_hill = Element("x_hill").element
 x_base32 = Element("x_base32").element
@@ -48,6 +48,7 @@ view_x_numeral = Element("view_x_numeral").element
 view_x_caesar = Element("view_x_caesar").element
 view_x_vigenere = Element("view_x_vigenere").element
 view_x_hill = Element("view_x_hill").element
+view_x_rail = Element("view_x_rail").element
 view_x_base32 = Element("view_x_base32").element
 view_x_base64 = Element("view_x_base64").element
 view_x_ascii85 = Element("view_x_ascii85").element
@@ -99,6 +100,11 @@ x_vigenere_variant = Element("x_vigenere_variant").element
 x_vigenere_key = Element("x_vigenere_key").element
 x_vigenere_mode = Element("x_vigenere_mode").element
 x_vigenere_process = Element("x_vigenere_process").element
+
+x_rail_key = Element("x_rail_key").element
+x_rail_minus = Element("x_rail_minus").element
+x_rail_plus = Element("x_rail_plus").element
+x_rail_process = Element("x_rail_process").element
 
 x_base32_std = Element("x_base32_std").element
 x_base32_hex = Element("x_base32_hex").element
@@ -161,6 +167,7 @@ def show_feature():
     view_x_caesar.classList.add("is-hidden")
     view_x_vigenere.classList.add("is-hidden")
     view_x_hill.classList.add("is-hidden")
+    view_x_rail.classList.add("is-hidden")
     view_x_base32.classList.add("is-hidden")
     view_x_base64.classList.add("is-hidden")
     view_x_ascii85.classList.add("is-hidden")
@@ -241,12 +248,13 @@ def x_vigenere_click(event):
     view_x_vigenere.classList.remove("is-hidden")
 
 
-def x_alphabetical_click(event):
-    show_main(x_alphabetical)
+# def x_alphabetical_click(event):
+#     show_main(x_alphabetical)
 
 
 def x_rail_fence_click(event):
     show_main(x_rail_fence)
+    view_x_rail.classList.remove("is-hidden")
 
 
 def x_hill_click(event):
@@ -599,6 +607,101 @@ def x_hill_process_click(event):
         output.value = x_hill_decode(message, Kinv)
 
 
+def x_rail_plus_click(event):
+    if int(x_rail_key.value) == 98:
+        x_rail_key.value = 2
+    else:
+        x_rail_key.value = int(x_rail_key.value) + 1
+
+
+def x_rail_minus_click(event):
+    if int(x_rail_key.value) == 2:
+        x_rail_key.value = 98
+    else:
+        x_rail_key.value = int(x_rail_key.value) - 1
+
+
+def encryptRailFence(text, key):
+    rail = [["\n" for i in range(len(text))] for j in range(key)]
+
+    dir_down = False
+    row, col = 0, 0
+
+    for i in range(len(text)):
+        if (row == 0) or (row == key - 1):
+            dir_down = not dir_down
+
+        rail[row][col] = text[i]
+        col += 1
+
+        if dir_down:
+            row += 1
+        else:
+            row -= 1
+
+    result = []
+    for i in range(key):
+        for j in range(len(text)):
+            if rail[i][j] != "\n":
+                result.append(rail[i][j])
+
+    return "".join(result)
+
+
+def decryptRailFence(cipher, key):
+    rail = [["\n" for i in range(len(cipher))] for j in range(key)]
+
+    dir_down = None
+    row, col = 0, 0
+
+    for i in range(len(cipher)):
+        if row == 0:
+            dir_down = True
+        if row == key - 1:
+            dir_down = False
+
+        rail[row][col] = "*"
+        col += 1
+
+        if dir_down:
+            row += 1
+        else:
+            row -= 1
+
+    index = 0
+    for i in range(key):
+        for j in range(len(cipher)):
+            if (rail[i][j] == "*") and (index < len(cipher)):
+                rail[i][j] = cipher[index]
+                index += 1
+
+    result = []
+    row, col = 0, 0
+    for i in range(len(cipher)):
+        if row == 0:
+            dir_down = True
+        if row == key - 1:
+            dir_down = False
+        if rail[row][col] != "*":
+            result.append(rail[row][col])
+            col += 1
+        if dir_down:
+            row += 1
+        else:
+            row -= 1
+    return "".join(result)
+
+
+def x_rail_process_click(event):
+    message = input.value
+    key = int(x_rail_key.value)
+
+    if int(is_encode.value) == 1:
+        output.value = encryptRailFence(message, key)
+    else:
+        output.value = decryptRailFence(message, key)
+
+
 def x_base32_process_click(event):
     x = input.value
 
@@ -784,7 +887,7 @@ def main():
     x_numeral.addEventListener("click", create_proxy(x_numeral_click))
     x_caesar.addEventListener("click", create_proxy(x_caesar_click))
     x_vigenere.addEventListener("click", create_proxy(x_vigenere_click))
-    x_alphabetical.addEventListener("click", create_proxy(x_alphabetical_click))
+    # x_alphabetical.addEventListener("click", create_proxy(x_alphabetical_click))
     x_rail_fence.addEventListener("click", create_proxy(x_rail_fence_click))
     x_hill.addEventListener("click", create_proxy(x_hill_click))
     x_base32.addEventListener("click", create_proxy(x_base32_click))
@@ -795,14 +898,19 @@ def main():
     x_hash_func.addEventListener("click", create_proxy(x_hash_func_click))
     x_hmac.addEventListener("click", create_proxy(x_hmac_click))
 
+    x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
+    x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
+    x_rail_plus.addEventListener("click", create_proxy(x_rail_plus_click))
+    x_rail_minus.addEventListener("click", create_proxy(x_rail_minus_click))
+
     x_replace_process.addEventListener("click", create_proxy(x_replace_process_click))
     x_reverse_process.addEventListener("click", create_proxy(x_reverse_process_click))
     x_case_process.addEventListener("click", create_proxy(x_case_process_click))
     x_numeral_process.addEventListener("click", create_proxy(x_numeral_process_click))
-    x_caesar_shift_p.addEventListener("click", create_proxy(x_caesar_shift_p_click))
-    x_caesar_shift_m.addEventListener("click", create_proxy(x_caesar_shift_m_click))
     x_caesar_process.addEventListener("click", create_proxy(x_caesar_process_click))
     x_vigenere_process.addEventListener("click", create_proxy(x_vigenere_process_click))
+    x_hill_process.addEventListener("click", create_proxy(x_hill_process_click))
+    x_rail_process.addEventListener("click", create_proxy(x_rail_process_click))
     x_base32_process.addEventListener("click", create_proxy(x_base32_process_click))
     x_base64_process.addEventListener("click", create_proxy(x_base64_process_click))
     x_ascii85_process.addEventListener("click", create_proxy(x_ascii85_process_click))
@@ -810,7 +918,6 @@ def main():
     x_url_enc_process.addEventListener("click", create_proxy(x_url_enc_process_click))
     x_hash_process.addEventListener("click", create_proxy(x_hash_process_click))
     x_hmac_process.addEventListener("click", create_proxy(x_hmac_process_click))
-    x_hill_process.addEventListener("click", create_proxy(x_hill_process_click))
 
     loading_done()
 
