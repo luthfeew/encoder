@@ -8,7 +8,7 @@ import numpy as np
 from math import *
 from egcd import egcd
 from pyodide import create_proxy
-from js import console
+from js import window, document, FileReader, encodeURIComponent, console
 
 alphabet = string.ascii_lowercase
 letter_to_index = dict(zip(alphabet, range(len(alphabet))))
@@ -62,7 +62,11 @@ tab_encode = Element("tab_encode").element
 tab_decode = Element("tab_decode").element
 
 input = Element("input").element
+file_input = Element("file_input").element
+file_name = Element("file_name").element
 output = Element("output").element
+copy = Element("copy").element
+save = Element("save").element
 
 x_replace_find = Element("x_replace_find").element
 x_replace_replace = Element("x_replace_replace").element
@@ -182,12 +186,14 @@ def show_main(id):
     view_feature.classList.add("is-hidden")
     breadcrumb1.innerHTML = id.closest(":not(button)").previousElementSibling.innerHTML
     breadcrumb2.innerHTML = id.innerHTML
+    file_name.innerHTML = "(empty)"
 
 
 def switch_input():
     temp = input.value
     input.value = output.value
     output.value = temp
+    file_name.innerHTML = "(empty)"
 
 
 def encode_view():
@@ -875,11 +881,45 @@ def x_hmac_process_click(event):
         output.value = hmac.new(k, x.encode(), hashlib.sha512).hexdigest()
 
 
+async def file_input_change(event):
+    fileList = file_input.files
+    for f in fileList:
+        reader = FileReader.new()
+        reader.onloadend = read_complete
+        reader.readAsText(f)
+        file_name.innerHTML = f.name
+    
+    file_input.value = ""
+
+
+def read_complete(event):
+    input.value = event.target.result
+
+
+def copy_click(event):
+    output.select()
+    document.execCommand("copy")
+
+
+def save_click(event):
+    link = window.document.createElement("a")
+    link.setAttribute(
+        "href",
+        "data:text/plain;charset=utf-8," + encodeURIComponent(output.value),
+    )
+    link.setAttribute("download", "output.txt")
+    link.click()
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
     tab_encode.addEventListener("click", create_proxy(tab_encode_click))
     tab_decode.addEventListener("click", create_proxy(tab_decode_click))
+
+    file_input.addEventListener("change", create_proxy(file_input_change))
+    copy.addEventListener("click", create_proxy(copy_click))
+    save.addEventListener("click", create_proxy(save_click))
 
     x_replace.addEventListener("click", create_proxy(x_replace_click))
     x_reverse.addEventListener("click", create_proxy(x_reverse_click))

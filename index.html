@@ -96,6 +96,20 @@
                         <h1 class="title">Text</h1>
                         <h2 class="subtitle">Input</h2>
                         <textarea class="textarea" id="input"></textarea>
+                        <div class="file has-name is-fullwidth is-rounded mt-4">
+                            <label class="file-label">
+                                <input class="file-input" type="file" id="file_input" accept="text/plain">
+                                <span class="file-cta">
+                                    <span class="file-icon">
+                                        <i class="fas fa-upload"></i>
+                                    </span>
+                                    <span class="file-label">
+                                        Upload
+                                    </span>
+                                </span>
+                                <span class="file-name" id="file_name">(empty)</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="column">
@@ -268,7 +282,7 @@
                                     </div>
                                 </div>
                             </div> -->
-                            <button class="button is-rounded is-fullwidth mt-5" id="x_caesar_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_caesar_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_vigenere">
@@ -302,7 +316,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="button is-rounded is-fullwidth mt-5" id="x_vigenere_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_vigenere_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_hill">
@@ -313,7 +327,7 @@
                                         placeholder="kunci wajib 4 huruf alfabet">
                                 </div>
                             </div>
-                            <button class="button is-rounded is-fullwidth mt-5" id="x_hill_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_hill_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_rail">
@@ -334,7 +348,7 @@
                                     </a>
                                 </div>
                             </div>
-                            <button class="button is-rounded is-fullwidth mt-5" id="x_rail_process">Process</button>
+                            <button class="button is-rounded is-fullwidth mt-4" id="x_rail_process">Process</button>
                         </div>
 
                         <div class="is-hidden" id="view_x_base32">
@@ -536,6 +550,24 @@
                         <h1 class="title">Text</h1>
                         <h2 class="subtitle">Output</h2>
                         <textarea class="textarea" id="output" readonly></textarea>
+                        <div class="field has-addons has-addons-centered mt-4">
+                            <p class="control">
+                                <button class="button is-rounded" id="copy">
+                                    <span class="icon is-small">
+                                        <i class="fa-solid fa-copy"></i>
+                                    </span>
+                                    <span>Copy</span>
+                                </button>
+                            </p>
+                            <p class="control">
+                                <button class="button is-rounded" id="save">
+                                    <span class="icon is-small">
+                                        <i class="fa-solid fa-download"></i>
+                                    </span>
+                                    <span>Save</span>
+                                </button>
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
