@@ -50,6 +50,10 @@
 
     <section class="section has-background-white-ter is-hidden" id="view_feature">
         <div class="container is-fluid">
+            <h1 class="title is-5 mb-2">File</h1>
+            <div class="buttons">
+                <button class="button is-rounded" id="x_file">File encrypt</button>
+            </div>
             <h1 class="title is-5 mb-2">Transform</h1>
             <div class="buttons">
                 <button class="button is-rounded" id="x_replace">Replace</button>
@@ -77,6 +81,55 @@
             <div class="buttons">
                 <button class="button is-rounded" id="x_hash_func">Hash function</button>
                 <button class="button is-rounded" id="x_hmac">HMAC</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="section has-background-white-ter" id="view_file">
+        <div class="container is-fullhd">
+            <div class="columns is-centered">
+                <div class="column is-half">
+                    <nav class="breadcrumb has-arrow-separator" aria-label="breadcrumbs">
+                        <ul>
+                            <li><a id="goto_feature">Home</a></li>
+                            <li class="is-active"><a aria-current="page" id="breadcrumb1"></a></li>
+                            <li class="is-active"><a aria-current="page" id="breadcrumb2"></a></li>
+                        </ul>
+                    </nav>
+                    <div class="box">
+                        <div class="field">
+                            <label class="label">File</label>
+                            <div class="control">
+                                <div class="file has-name is-fullwidth">
+                                    <label class="file-label">
+                                        <input class="file-input" type="file" id="file_input2">
+                                        <span class="file-cta">
+                                            <span class="file-icon">
+                                                <i class="fas fa-upload"></i>
+                                            </span>
+                                            <span class="file-label">
+                                                Choose a file…
+                                            </span>
+                                        </span>
+                                        <span class="file-name" id="file_name2">(empty)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Metadata</label>
+                            <div class="control">
+                                <textarea class="textarea" id="file_meta"></textarea>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Bytes</label>
+                            <div class="control">
+                                <textarea class="textarea" id="file_bytes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

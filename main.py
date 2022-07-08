@@ -5,10 +5,19 @@ import binascii
 import urllib.parse
 import string
 import numpy as np
+import random
 from math import *
 from egcd import egcd
 from pyodide import create_proxy
-from js import window, document, FileReader, encodeURIComponent, console
+from js import (
+    window,
+    document,
+    FileReader,
+    encodeURIComponent,
+    console,
+    Uint8Array,
+    Uint16Array,
+)
 
 alphabet = string.ascii_lowercase
 letter_to_index = dict(zip(alphabet, range(len(alphabet))))
@@ -16,6 +25,7 @@ index_to_letter = dict(zip(range(len(alphabet)), alphabet))
 
 page_loading = Element("page_loading").element
 
+x_file = Element("x_file").element
 x_replace = Element("x_replace").element
 x_reverse = Element("x_reverse").element
 x_case = Element("x_case_transform").element
@@ -39,6 +49,7 @@ breadcrumb1 = Element("breadcrumb1").element
 breadcrumb2 = Element("breadcrumb2").element
 
 view_feature = Element("view_feature").element
+view_file = Element("view_file").element
 view_main = Element("view_main").element
 
 view_x_replace = Element("view_x_replace").element
@@ -64,6 +75,10 @@ tab_decode = Element("tab_decode").element
 input = Element("input").element
 file_input = Element("file_input").element
 file_name = Element("file_name").element
+file_input2 = Element("file_input2").element
+file_name2 = Element("file_name2").element
+file_meta = Element("file_meta").element
+file_bytes = Element("file_bytes").element
 output = Element("output").element
 copy = Element("copy").element
 save = Element("save").element
@@ -888,7 +903,7 @@ async def file_input_change(event):
         reader.onloadend = read_complete
         reader.readAsText(f)
         file_name.innerHTML = f.name
-    
+
     file_input.value = ""
 
 
@@ -911,6 +926,28 @@ def save_click(event):
     link.click()
 
 
+async def file_input2_change(event):
+    fileList = file_input2.files
+    for f in fileList:
+        reader = FileReader.new()
+        reader.onloadend = read_complete2
+        reader.readAsArrayBuffer(f)
+        file_name2.innerHTML = f.name
+
+    file_input2.value = ""
+
+
+def read_complete2(event):
+    x = event.target.result 
+    hmm = Uint8Array.new(x)
+    file_bytes.value = hmm.toString()
+
+    # hmm_hex = ""
+    # for i in range(len(hmm)):
+    #     hmm_hex += "%02x" % hmm[i]
+    # file_bytes.value = hmm_hex
+
+
 def main():
     goto_feature.addEventListener("click", create_proxy(goto_feature_click))
 
@@ -918,6 +955,7 @@ def main():
     tab_decode.addEventListener("click", create_proxy(tab_decode_click))
 
     file_input.addEventListener("change", create_proxy(file_input_change))
+    file_input2.addEventListener("change", create_proxy(file_input2_change))
     copy.addEventListener("click", create_proxy(copy_click))
     save.addEventListener("click", create_proxy(save_click))
 
