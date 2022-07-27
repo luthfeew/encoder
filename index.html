@@ -14,6 +14,16 @@
         - egcd
     </py-env>
     <style>
+        .main {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        .section {
+            flex: 1;
+        }
+
         input::-webkit-outer-spin-button,
         input::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -26,7 +36,7 @@
     </style>
 </head>
 
-<body>
+<body class="main">
     <section class="hero is-small pl-2 py-1">
         <div class="hero-body has-text-centered-mobile">
             <p class="title">
@@ -48,7 +58,7 @@
         </div>
     </section>
 
-    <section class="section has-background-white-ter is-hidden" id="view_feature">
+    <section class="section has-background-white-ter is-align-items-center is-flex is-hidden" id="view_feature">
         <div class="container is-fluid">
             <h1 class="title is-5 mb-2">Transform</h1>
             <div class="buttons">
@@ -579,7 +589,7 @@
             <p>
                 <strong>Encoder</strong> &#8211; Web Application.
                 <br>
-                Powered by <a href="https://pyscript.net" target="_blank">PyScript</a>.
+                <i class="fa-solid fa-code"></i> with <i class="fa-solid fa-heart"></i> by <strong>luthfeew</strong>.
                 Code licensed <a href="https://github.com/luthfeew/encoder/blob/main/LICENSE" target="_blank">MIT</a>.
             </p>
             <p class="mt-3">
